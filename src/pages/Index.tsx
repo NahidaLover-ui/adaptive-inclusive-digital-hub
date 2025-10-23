@@ -1,25 +1,42 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import ProblemSection from "@/components/ProblemSection";
-import FeaturesSection from "@/components/FeaturesSection";
-import BenefitsSection from "@/components/BenefitsSection";
-import VisionSection from "@/components/VisionSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import Footer from "@/components/Footer";
+import { useState } from "react";
+import Sidebar from "@/components/workspace/Sidebar";
+import Dashboard from "@/components/workspace/Dashboard";
+import LearningPaths from "@/components/workspace/LearningPaths";
+import Wellbeing from "@/components/workspace/Wellbeing";
+import Collaboration from "@/components/workspace/Collaboration";
+import Analytics from "@/components/workspace/Analytics";
+import Settings from "@/components/workspace/Settings";
+
+export type WorkspaceView = "dashboard" | "learning" | "wellbeing" | "collaboration" | "analytics" | "settings";
 
 const Index = () => {
+  const [currentView, setCurrentView] = useState<WorkspaceView>("dashboard");
+
+  const renderView = () => {
+    switch (currentView) {
+      case "dashboard":
+        return <Dashboard />;
+      case "learning":
+        return <LearningPaths />;
+      case "wellbeing":
+        return <Wellbeing />;
+      case "collaboration":
+        return <Collaboration />;
+      case "analytics":
+        return <Analytics />;
+      case "settings":
+        return <Settings />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
-    <div className="min-h-screen">
-      <Header />
-      <main>
-        <Hero />
-        <ProblemSection />
-        <FeaturesSection />
-        <BenefitsSection />
-        <VisionSection />
-        <TestimonialsSection />
+    <div className="flex h-screen bg-background">
+      <Sidebar currentView={currentView} onViewChange={setCurrentView} />
+      <main className="flex-1 overflow-auto">
+        {renderView()}
       </main>
-      <Footer />
     </div>
   );
 };
